@@ -1,0 +1,99 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+    <title>Dashboard</title>
+    <style>
+        h1{
+            display: inline-block;
+        }
+        .links{
+            display: inline-block;
+            margin-left: 600px;
+        }
+        .links a{
+            margin-left: 20px;
+        }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+        <div class="header">
+            <h1>Hello {{user.first}}</h1>
+            <div class="links">
+                <a href="/logout">Logout</a>
+                <a href="/jobs/new" class="btn btn-primary">New job</a>
+            </div>
+        </div>
+        <div class="jobs">
+            <h3>Everyone's Job:</h3>
+            <table class="table table-striped">
+                <thead>
+                  <tr>
+                    <th scope="col">Job</th>
+                    <th scope="col">Location</th>
+                    <th scope="col">Actions</th>
+                  </tr>
+                </thead>
+                <tbody>
+                    {% if jobs %}
+                    {% for job in jobs %}
+                    {% if job in taken %}
+                    <tr>
+                        <th scope="row">{{job.title}}</th>
+                        <td>{{job.location}}</td>
+                        <td>
+                            <a href="/jobs/{{job.id}}">View</a> | 
+                            <a href="/add_job/{{job.id}}">Add</a>
+                            {% if user == job.creator %}
+                             | <a href="/remove/{{job.id}}">Remove</a> | 
+                            <a href="/jobs/edit/{{job.id}}">Edit</a> 
+                            {% endif %}
+                        </td>
+                    </tr>
+                    {% endif %}
+                    {% endfor %}
+                    {% endif %}
+                </tbody>
+              </table>
+        </div>
+        <div class="currentjobs">
+            <h3>{{user.first}}'s jobs</h3>
+            <table class="table table-striped">
+                <thead>
+                  <tr>
+                    <th scope="col">Job</th>
+                    <th scope="col">Actions</th>
+                  </tr>
+                </thead>
+                <tbody>
+                    {% if user_jobs %}
+                    {% for job in user_jobs %}
+                    <tr>
+                        <th scope="row">{{job.title}}</th>
+                        <td>
+                            <a href="/jobs/{{job.id}}">View</a> | 
+                            <a href="/done/{{job.id}}">Done</a> | 
+                            <a href="/give_up/{{job.id}}">Give up</a>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                    {% endif %}
+                </tbody>
+              </table>
+        </div>
+    </div>
+
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+  </body>
+</html>
